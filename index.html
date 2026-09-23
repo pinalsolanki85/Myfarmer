@@ -2,236 +2,74 @@
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-
-
-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ખેડૂત મિત્ર - આંતરોલ પ્રાથમિક શાળા</title>
-    <script 
-
-src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"
-
-></script>
-    <script 
-
-src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/tea
-
-chablemachine-image.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, 
-
-Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #eef7f2; color: #2d3748; display: flex; 
-
-flex-direction: column; align-items: center; min-height: 100vh; padding: 
-
-15px; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #eef7f2; color: #2d3748; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 15px; }
         
-        .header-card { background: linear-gradient(135deg, #1b5e20, 
+        .header-card { background: linear-gradient(135deg, #1b5e20, #2e7d32); color: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 16px; text-align: center; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); margin-bottom: 15px; }
+        .school-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 4px; }
+        .school-location { font-size: 0.9rem; opacity: 0.9; margin-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 8px; }
+        .project-title { font-size: 1.3rem; font-weight: bold; color: #ffe082; }
 
-#2e7d32); color: white; width: 100%; max-width: 500px; padding: 20px; 
-
-border-radius: 16px; text-align: center; box-shadow: 0 8px 20px rgba(0, 
-
-0, 0, 0.15); margin-bottom: 15px; }
-        .school-name { font-size: 1.3rem; font-weight: bold; margin-
-
-bottom: 4px; }
-        .school-location { font-size: 0.9rem; opacity: 0.9; margin-
-
-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
-
-padding-bottom: 8px; }
-        .project-title { font-size: 1.3rem; font-weight: bold; color: 
-
-#ffe082; }
-
-        /* 🌟 વિદ્યાર્થીઓ અને માર્ગદર્શક માટે નવું કલરફુલ અને પ્રોપર બોક્સ લેઆઉટ 🌟 */
-        .credits-container {
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .students-wrapper {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .student-card {
-            flex: 1;
-            background: #ffffff;
-            border: 2px solid #a7f3d0;
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-        }
-
-        .student-title {
-            font-size: 0.8rem;
-            color: #166534;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .student-name {
-            font-size: 0.95rem;
-            color: #15803d;
-            font-weight: 800;
-            word-break: break-word;
-        }
-
-        .guide-card {
-            background: linear-gradient(135deg, #fffbe3, #fef3c7);
-            border: 2px solid #fde047;
-            border-radius: 12px;
-            padding: 10px 15px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-        }
-
-        .guide-title {
-            font-size: 0.82rem;
-            color: #854d0e;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .guide-name {
-            font-size: 1.05rem;
-            color: #a16207;
-            font-weight: 800;
-        }
-
-        .main-card { background: #ffffff; border-radius: 16px; box-
-
-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); width: 100%; max-width: 500px; 
-
-padding: 20px; text-align: center; }
+        .credits-bar { background: #ffffff; width: 100%; max-width: 500px; border-radius: 12px; padding: 10px 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.85rem; display: flex; justify-content: space-between; color: #1b5e20; font-weight: bold; }
+        .main-card { background: #ffffff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); width: 100%; max-width: 500px; padding: 20px; text-align: center; }
 
         .button-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn { flex: 1; background: linear-gradient(135deg, #4caf50, 
+        .btn { flex: 1; background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; border: none; padding: 12px 15px; font-size: 0.95rem; font-weight: bold; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
+        .btn-secondary { background: linear-gradient(135deg, #00897b, #004d40); }
 
-#2e7d32); color: white; border: none; padding: 12px 15px; font-size: 
+        #video-container, #image-container { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
+        #webcam-video, #preview-img { border-radius: 12px; border: 3px solid #81c784; max-width: 100%; height: auto; max-height: 260px; object-fit: cover; }
 
-0.95rem; font-weight: bold; border-radius: 10px; cursor: pointer; box-
+        .results-title { font-weight: bold; color: #1b5e20; margin-bottom: 10px; text-align: left; font-size: 1.05rem; }
+        .prediction-badge { background-color: #f1f8e9; border-left: 5px solid #4caf50; padding: 10px; border-radius: 8px; margin-bottom: 8px; text-align: left; }
+        .label-text { display: flex; justify-content: space-between; font-weight: bold; color: #2e7d32; margin-bottom: 4px; }
+        .progress-bar-bg { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress-bar-fill { background: #4caf50; height: 100%; width: 0%; transition: width 0.3s ease; }
 
-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
-        .btn-secondary { background: linear-gradient(135deg, #00897b, 
+        .info-card { margin-top: 15px; padding: 12px; border-radius: 10px; text-align: left; display: none; }
+        .treatment-card { background: #e8f5e9; border: 1px solid #c8e6c9; }
+        .prevention-card { background: #e0f2f1; border: 1px solid #b2dfdb; }
+        .info-title { font-weight: bold; color: #1b5e20; margin-bottom: 5px; }
+        .info-text { font-size: 0.9rem; color: #37474f; line-height: 1.4; }
 
-#004d40); }
-
-        #video-container, #image-container { display: flex; justify-
-
-content: center; align-items: center; margin-bottom: 15px; }
-        #webcam-video, #preview-img { border-radius: 12px; border: 3px 
-
-solid #81c784; max-width: 100%; height: auto; max-height: 260px; object-
-
-fit: cover; }
-
-        .results-title { font-weight: bold; color: #1b5e20; margin-
-
-bottom: 10px; text-align: left; font-size: 1.05rem; }
-        .prediction-badge { background-color: #f1f8e9; border-left: 5px 
-
-solid #4caf50; padding: 10px; border-radius: 8px; margin-bottom: 8px; 
-
-text-align: left; }
-        .label-text { display: flex; justify-content: space-between; 
-
-font-weight: bold; color: #2e7d32; margin-bottom: 4px; }
-        .progress-bar-bg { background: #e0e0e0; height: 8px; border-
-
-radius: 4px; overflow: hidden; }
-        .progress-bar-fill { background: #4caf50; height: 100%; width: 
-
-0%; transition: width 0.3s ease; }
-
-        .info-card { margin-top: 15px; padding: 12px; border-radius: 
-
-10px; text-align: left; display: none; }
-        .treatment-card { background: #e8f5e9; border: 1px solid #c8e6c9; 
-
-}
-        .prevention-card { background: #e0f2f1; border: 1px solid 
-
-#b2dfdb; }
-        .info-title { font-weight: bold; color: #1b5e20; margin-bottom: 
-
-5px; }
-        .info-text { font-size: 0.9rem; color: #37474f; line-height: 1.4; 
-
-white-space: pre-line; }
-
-        #error-log { color: #d32f2f; margin-top: 10px; font-weight: bold; 
-
-font-size: 0.9rem; }
-        .footer { margin-top: 15px; font-size: 0.85rem; color: #666; 
-
-text-align: center; }
+        #error-log { color: #d32f2f; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+        .footer { margin-top: 15px; font-size: 0.85rem; color: #666; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header-card">
         <div class="school-name">🏫 આંતરોલ પ્રાથમિક શાળા</div>
-        <div class="school-location">તાલુકો : થરાદ, જીલ્લો : વાવ - થરાદ</div>
+        <div class="school-location">તાલુકો : થરાદ, જીલ્લો :  વાવ - થરાદ</div>
         <div class="project-title">🌱 AI ખેડૂત મિત્ર (મગફળી પાક રોગ નિદાન)</div>
     </div>
 
-    <!-- 🌟 આકર્ષક અને સ્પષ્ટ બોક્સ લેઆઉટ 🌟 -->
-    <div class="credits-container">
-        <div class="students-wrapper">
-            <div class="student-card">
-                <div class="student-title">👨‍🎓 બાળ વૈજ્ઞાનિક ૧</div>
-                <div class="student-name">આરાધ્યા બી. પટેલ</div>
-            </div>
-            <div class="student-card">
-                <div class="student-title">👨‍🎓 બાળ વૈજ્ઞાનિક ૨</div>
-                <div class="student-name"> મિત્તલબેન પી. ચૌધરી</div>
-            </div>
-        </div>
-        <div class="guide-card">
-            <div class="guide-title">👨‍🏫 માર્ગદર્શક શિક્ષક શ્રી</div>
-            <div class="guide-name">પિનલભાઈ સોલંકી</div>
-        </div>
+    <div class="credits-bar">
+        <span>👨‍🎓 વિદ્યાર્થી 1  આરાધ્યા  પટેલ</span>
+        <span>👨‍🏫 માર્ગદર્શક: શિક્ષક શ્રી પિનલભાઈ સોલંકી </span>
     </div>
 
     <div class="main-card">
         <div class="button-group">
-            <button class="btn" onclick="startCamera()">📷 કૅમેરા ચાલુ 
-
-કરો</button>
-            <button class="btn btn-secondary" 
-
-onclick="document.getElementById('file-input').click()">📁 ફોટો પસંદ 
-
-કરો</button>
-            <input type="file" id="file-input" accept="image/*" 
-
-style="display:none" onchange="handleFileUpload(event)">
+            <button class="btn" onclick="startCamera()">📷 કૅમેરા ચાલુ કરો</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('file-input').click()">📁 ફોટો પસંદ કરો</button>
+            <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(event)">
         </div>
 
         <div id="video-container">
-            <video id="webcam-video" autoplay playsinline 
-
-style="display:none;"></video>
+            <video id="webcam-video" autoplay playsinline style="display:none;"></video>
         </div>
         <div id="image-container">
-            <img id="preview-img" style="display:none;" alt="Uploaded 
-
-Leaf">
+            <img id="preview-img" style="display:none;" alt="Uploaded Leaf">
         </div>
         
-        <div id="results-title" class="results-title" 
-
-style="display:none;">📊 રોગનું વિશ્લેષણ (Analysis):</div>
+        <div id="results-title" class="results-title" style="display:none;">📊 રોગનું વિશ્લેષણ (Analysis):</div>
         <div id="label-container"></div>
         
         <div id="treatment-card" class="info-card treatment-card">
@@ -258,31 +96,22 @@ style="display:none;">📊 રોગનું વિશ્લેષણ (Analysis
         let isCameraActive = false;
 
         const diseaseData = {
+            // સ્વસ્થ પાન માટેના તમામ સંભવિત નામો
             "Healthy Leaf": {
                 treatment: "પાક સંપૂર્ણપણે સ્વસ્થ છે! કોઈ દવાની જરૂર નથી.",
-                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) 
-
-નો જ ઉપયોગ કરવો."
+                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) નો જ ઉપયોગ કરવો."
             },
             "Healthy": {
                 treatment: "પાક સંપૂર્ણપણે સ્વસ્થ છે! કોઈ દવાની જરૂર નથી.",
-                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) 
-
-નો જ ઉપયોગ કરવો."
+                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) નો જ ઉપયોગ કરવો."
             },
             "healthy": {
                 treatment: "પાક સંપૂર્ણપણે સ્વસ્થ છે! કોઈ દવાની જરૂર નથી.",
-                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) 
-
-નો જ ઉપયોગ કરવો."
+                prevention: "• યોગ્ય સમયે જમીનમાં પૂરતો ભેજ જાળવવો.\n• સમતોલ ખાતર (NPK) નો જ ઉપયોગ કરવો."
             },
             "tikka": {
-                treatment: "મેન્કોઝેબ ૭૫% WP (૨૭ ગ્રામ) અથવા કાર્બેન્ડાઝીમ (૧૦ ગ્રામ) ૧૦ લીટર પાણીમાં 
-
-ભેળવી છંટકાવ કરવો.",
-                prevention: "• વાવણી પહેલાં બિયારણને દવાની પટ આપવી (Seed Treatment).
-
-\n• પાકની ફેરબદલી (Crop Rotation) કરવી."
+                treatment: "મેન્કોઝેબ ૭૫% WP (૨૭ ગ્રામ) અથવા કાર્બેન્ડાઝીમ (૧૦ ગ્રામ) ૧૦ લીટર પાણીમાં ભેળવી છંટકાવ કરવો.",
+                prevention: "• વાવણી પહેલાં બિયારણને દવાની પટ આપવી (Seed Treatment).\n• પાકની ફેરબદલી (Crop Rotation) કરવી."
             },
             "rust": {
                 treatment: "ગેરુના નિયંત્રણ માટે ટેબુકોનાઝોલ કે હેક્ઝાકોનાઝોલ દવાનો છંટકાવ કરવો.",
@@ -309,22 +138,18 @@ style="display:none;">📊 રોગનું વિશ્લેષણ (Analysis
 
         async function startCamera() {
             const errorDiv = document.getElementById("error-log");
-            document.getElementById("preview-img").style.display = 
-
-"none";
+            document.getElementById("preview-img").style.display = "none";
             errorDiv.innerHTML = "";
 
             try {
                 await initModel();
 
-                const stream = await navigator.mediaDevices.getUserMedia
-
-({
+                // સ્માર્ટફોન માટે ડાયરેક્ટ કૅમેરા એક્સેસ
+                const stream = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: { exact: "environment" } }
                 }).catch(async () => {
-                    return await navigator.mediaDevices.getUserMedia({ 
-
-video: true });
+                    // જો એક્ઝેક્ટ પાછળનો કેમેરા સપોર્ટ ન કરે તો નોર્મલ કેમેરા
+                    return await navigator.mediaDevices.getUserMedia({ video: true });
                 });
 
                 videoElement.srcObject = stream;
@@ -337,9 +162,7 @@ video: true });
                 };
             } catch (err) {
                 console.error(err);
-                errorDiv.innerHTML = "કૅમેરા શરુ ન થઈ શક્યો. લિંક <b>HTTPS</b> વાળી છે કે 
-
-નહીં ચકાસો અથવા બીજી બધી એપ બંધ કરી પ્રયાસ કરો.";
+                errorDiv.innerHTML = "કૅમેરા શરુ ન થઈ શક્યો. લિંક <b>HTTPS</b> વાળી છે કે નહીં ચકાસો અથવા બીજી બધી એપ બંધ કરી પ્રયાસ કરો.";
             }
         }
 
@@ -356,9 +179,7 @@ video: true });
 
             isCameraActive = false;
             if (videoElement.srcObject) {
-                videoElement.srcObject.getTracks().forEach(track => 
-
-track.stop());
+                videoElement.srcObject.getTracks().forEach(track => track.stop());
             }
             videoElement.style.display = "none";
 
@@ -374,9 +195,7 @@ track.stop());
         }
 
         function setupUI() {
-            document.getElementById("results-title").style.display = 
-
-"block";
+            document.getElementById("results-title").style.display = "block";
             labelContainer = document.getElementById("label-container");
             labelContainer.innerHTML = "";
             
@@ -408,15 +227,9 @@ track.stop());
                 
                 const badge = labelContainer.childNodes[i];
                 if (badge) {
-                    badge.querySelector(".class-name").innerText = 
-
-className;
-                    badge.querySelector(".class-pct").innerText = 
-
-percentage;
-                    badge.querySelector(".progress-bar-fill").style.width 
-
-= percentage;
+                    badge.querySelector(".class-name").innerText = className;
+                    badge.querySelector(".class-pct").innerText = percentage;
+                    badge.querySelector(".progress-bar-fill").style.width = percentage;
                 }
 
                 if (prob > highestProb) {
@@ -425,28 +238,16 @@ percentage;
                 }
             }
 
-            const treatmentCard = document.getElementById("treatment-
-
-card");
-            const preventionCard = document.getElementById("prevention-
-
-card");
+            const treatmentCard = document.getElementById("treatment-card");
+            const preventionCard = document.getElementById("prevention-card");
             treatmentCard.style.display = "block";
             preventionCard.style.display = "block";
 
             const data = diseaseData[topClass] || diseaseData["Default"];
-            document.getElementById("treatment-text").innerText = 
-
-data.treatment;
-            document.getElementById("prevention-text").innerText = 
-
-data.prevention;
+            document.getElementById("treatment-text").innerText = data.treatment;
+            document.getElementById("prevention-text").innerText = data.prevention;
         }
     </script>
 </body>
 </html>
          
-      
-         
-
-   
